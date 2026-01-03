@@ -17,7 +17,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [projectsModalOpen, setProjectsModalOpen] = useState(false);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
-  const [caseStudyTitle, setCaseStudyTitle] = useState('');
+  const [caseStudyId, setCaseStudyId] = useState('');
 
   useEffect(() => {
     // Simulate loading time
@@ -31,8 +31,8 @@ const Index = () => {
   const openProjects = () => setProjectsModalOpen(true);
   const closeProjects = () => setProjectsModalOpen(false);
   
-  const openCaseStudy = (title: string) => {
-    setCaseStudyTitle(title);
+  const openCaseStudy = (id: string) => {
+    setCaseStudyId(id);
     setCaseStudyOpen(true);
   };
   const closeCaseStudy = () => setCaseStudyOpen(false);
@@ -44,9 +44,11 @@ const Index = () => {
       </AnimatePresence>
 
       {/* 3D Particle Background */}
-      <Suspense fallback={<div className="fixed inset-0 bg-background z-[-1]" />}>
-        <ParticleBackground />
-      </Suspense>
+      {!isLoading && (
+        <Suspense fallback={<div className="fixed inset-0 bg-background z-[-1]" />}>
+          <ParticleBackground />
+        </Suspense>
+      )}
 
       {/* Navigation */}
       <Navigation onOpenProjects={openProjects} />
@@ -72,7 +74,7 @@ const Index = () => {
       
       <CaseStudyPage 
         isOpen={caseStudyOpen}
-        title={caseStudyTitle}
+        projectId={caseStudyId}
         onClose={closeCaseStudy}
       />
     </div>

@@ -1,14 +1,27 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight, BarChart2, Map } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { projects, categoryLabels, type ProjectCategory } from '@/data/projects';
 
 interface FeaturedProjectsProps {
-  onOpenCaseStudy: (title: string) => void;
+  onOpenCaseStudy: (id: string) => void;
 }
+
+const categories: { id: ProjectCategory | 'all'; label: string }[] = [
+  { id: 'all', label: 'All Work' },
+  { id: 'web-design', label: 'Web Design' },
+  { id: 'development', label: 'Development' },
+  { id: 'seo', label: 'SEO' }
+];
 
 export default function FeaturedProjects({ onOpenCaseStudy }: FeaturedProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'all'>('all');
+
+  const filteredProjects = activeCategory === 'all' 
+    ? projects 
+    : projects.filter(p => p.category === activeCategory);
 
   return (
     <section id="work" className="py-24 relative" ref={ref}>
@@ -17,81 +30,84 @@ export default function FeaturedProjects({ onOpenCaseStudy }: FeaturedProjectsPr
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-16"
+          className="mb-12"
         >
           <h2 className="text-primary text-sm font-medium tracking-widest uppercase mb-3">Portfolio</h2>
-          <h3 className="text-3xl md:text-5xl font-medium text-foreground tracking-tight">Featured Work</h3>
+          <h3 className="text-3xl md:text-5xl font-medium text-foreground tracking-tight mb-8">Featured Work</h3>
+          
+          {/* Category Filter */}
+          <div className="flex flex-wrap gap-3">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeCategory === cat.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground border border-border/30'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Main Featured Project */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            onClick={() => onOpenCaseStudy('AI Integration Suite')}
-            className="lg:row-span-2 glass-panel rounded-2xl overflow-hidden border border-border/30 group cursor-pointer card-hover"
-          >
-            <div className="p-8">
-              <span className="text-primary text-xs font-medium uppercase tracking-widest">Featured</span>
-              <h3 className="text-2xl md:text-3xl font-medium text-foreground mt-2 mb-4">AI Integration Suite</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                A comprehensive AI-powered platform that streamlines business workflows, featuring automated data processing, intelligent chatbots, and predictive analytics.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {['React', 'Node.js', 'OpenAI', 'Python'].map((tech) => (
-                  <span key={tech} className="px-3 py-1 rounded-full bg-white/5 border border-border/30 text-xs text-muted-foreground">
-                    {tech}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.1 * (index % 6) }}
+              onClick={() => onOpenCaseStudy(project.id)}
+              className={`glass-panel rounded-2xl overflow-hidden border border-border/30 group cursor-pointer card-hover ${
+                project.featured ? 'md:col-span-2 lg:col-span-1' : ''
+              }`}
+            >
+              <div className="aspect-video bg-card relative overflow-hidden">
+                <img 
+                  src={project.image} 
+                  className="object-cover w-full h-full opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
+                  alt={project.title}
+                />
+                {project.featured && (
+                  <span className="absolute top-4 left-4 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
+                    Featured
                   </span>
-                ))}
+                )}
+                <span className="absolute top-4 right-4 px-3 py-1 bg-background/80 backdrop-blur-sm text-foreground text-xs font-medium rounded-full border border-border/30">
+                  {categoryLabels[project.category]}
+                </span>
               </div>
-              <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                View Case Study <ArrowRight size={14} />
-              </span>
-            </div>
-            <div className="relative bg-gradient-to-br from-muted to-background min-h-[300px] flex items-center justify-center p-8">
-              <div className="w-full h-full max-h-[300px] glass-panel rounded-xl border border-border/30 shadow-2xl translate-y-8 group-hover:translate-y-4 transition-transform duration-500 overflow-hidden relative">
-                <div className="absolute inset-0 bg-card/50" />
-                <div className="p-6 space-y-4 opacity-50">
-                  <div className="h-4 w-1/3 bg-white/20 rounded" />
-                  <div className="h-24 w-full bg-white/10 rounded" />
+              <div className="p-6">
+                <h3 className="text-xl text-foreground font-medium mb-2 group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                  {project.shortDescription}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.slice(0, 3).map((tech) => (
+                    <span 
+                      key={tech} 
+                      className="px-2 py-1 rounded bg-white/5 border border-border/30 text-xs text-muted-foreground"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.tech.length > 3 && (
+                    <span className="px-2 py-1 rounded bg-white/5 border border-border/30 text-xs text-muted-foreground">
+                      +{project.tech.length - 3}
+                    </span>
+                  )}
                 </div>
+                <span className="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                  View Case Study <ArrowRight size={14} />
+                </span>
               </div>
-            </div>
-          </motion.div>
-
-          {/* Secondary Projects */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            onClick={() => onOpenCaseStudy('Algo Trading Bot')}
-            className="glass-panel rounded-2xl overflow-hidden border border-border/30 group cursor-pointer card-hover"
-          >
-            <div className="p-8">
-              <div className="h-48 rounded-xl bg-card/50 mb-6 flex items-center justify-center border border-border/30 group-hover:border-primary/20 transition-colors">
-                <BarChart2 size={48} className="text-muted-foreground/30 group-hover:text-primary transition-colors" />
-              </div>
-              <h3 className="text-xl font-medium text-foreground mb-2">Algo-Trading Bot</h3>
-              <p className="text-muted-foreground text-sm">Automated cryptocurrency trading bot utilizing Python and technical analysis.</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            onClick={() => onOpenCaseStudy('Real Estate Mapper')}
-            className="glass-panel rounded-2xl overflow-hidden border border-border/30 group cursor-pointer card-hover"
-          >
-            <div className="p-8">
-              <div className="h-48 rounded-xl bg-card/50 mb-6 flex items-center justify-center border border-border/30 group-hover:border-primary/20 transition-colors">
-                <Map size={48} className="text-muted-foreground/30 group-hover:text-primary transition-colors" />
-              </div>
-              <h3 className="text-xl font-medium text-foreground mb-2">Real Estate Mapper</h3>
-              <p className="text-muted-foreground text-sm">Interactive property mapping with 3D viewing and lead generation.</p>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
