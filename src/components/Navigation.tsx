@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 interface NavigationProps {
   onOpenProjects: () => void;
@@ -20,26 +21,30 @@ export default function Navigation({ onOpenProjects }: NavigationProps) {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="glass-nav rounded-full px-2 py-2 flex items-center gap-1"
         >
-          <a href="#" className="px-4 py-2 rounded-full hover:bg-white/5 text-foreground font-medium text-sm transition-colors flex items-center gap-1">
+          <a href="#" className="px-4 py-2 rounded-full hover:bg-muted/50 text-foreground font-medium text-sm transition-colors flex items-center gap-1">
             YESAR<span className="text-primary">.</span>
           </a>
           
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center">
             <div className="w-[1px] h-4 bg-border mx-2" />
-            <a href="#services" className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-white/5 transition-all">Services</a>
-            <button onClick={onOpenProjects} className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-white/5 transition-all">Projects</button>
-            <a href="#testimonials" className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-white/5 transition-all">Testimonials</a>
+            <a href="#services" className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-muted/50 transition-all">Services</a>
+            <button onClick={onOpenProjects} className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-muted/50 transition-all">Projects</button>
+            <a href="#testimonials" className="px-4 py-2 rounded-full text-muted-foreground text-xs font-medium hover:text-foreground hover:bg-muted/50 transition-all">Testimonials</a>
           </div>
 
-          <div className="hidden md:block pl-2">
-            <a href="#contact" className="px-5 py-2 rounded-full bg-foreground text-background text-xs font-semibold hover:bg-primary neon-glow-hover transition-all">Let's Talk</a>
+          <div className="hidden md:flex items-center gap-2 pl-2">
+            <ThemeToggle />
+            <a href="#contact" className="px-5 py-2 rounded-full bg-foreground text-background text-xs font-semibold hover:bg-primary hover:text-primary-foreground neon-glow-hover transition-all">Let's Talk</a>
           </div>
 
           {/* Mobile Hamburger */}
-          <button onClick={toggleMobileMenu} className="md:hidden p-2 text-foreground hover:text-primary transition-colors z-50">
-            <Menu size={20} />
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button onClick={toggleMobileMenu} className="p-2 text-foreground hover:text-primary transition-colors z-50">
+              <Menu size={20} />
+            </button>
+          </div>
         </motion.nav>
       </div>
 
