@@ -1,35 +1,46 @@
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo, useEffect, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 interface ParticlesProps {
   count?: number;
-  mouse: React.MutableRefObject<{ x: number; y: number }>;
+  mousePosition: { x: number; y: number };
 }
 
-function Particles({ count = 1500, mouse }: ParticlesProps) {
+function Particles({ count = 1200, mousePosition }: ParticlesProps) {
   const mesh = useRef<THREE.Points>(null);
+  const time = useRef(0);
   
   const particles = useMemo(() => {
     const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 60;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+      positions[i * 3] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+      
+      // Green to cyan gradient colors
+      const t = Math.random();
+      colors[i * 3] = 0 + t * 0.2;
+      colors[i * 3 + 1] = 0.8 + t * 0.2;
+      colors[i * 3 + 2] = 0.3 + t * 0.5;
     }
-    return positions;
+    return { positions, colors };
   }, [count]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (!mesh.current) return;
     
-    // Constant rotation
-    mesh.current.rotation.y += 0.0008;
-    mesh.current.rotation.x += 0.0003;
+    time.current += delta;
     
-    // Mouse influence with smooth interpolation
-    mesh.current.rotation.y += mouse.current.x * 0.001;
-    mesh.current.rotation.x += mouse.current.y * 0.001;
+    // Constant slow rotation
+    mesh.current.rotation.y = time.current * 0.05;
+    mesh.current.rotation.x = Math.sin(time.current * 0.03) * 0.1;
+    
+    // Mouse influence
+    mesh.current.rotation.y += mousePosition.x * 0.002;
+    mesh.current.rotation.x += mousePosition.y * 0.002;
   });
 
   return (
@@ -38,87 +49,71 @@ function Particles({ count = 1500, mouse }: ParticlesProps) {
         <bufferAttribute
           attach="attributes-position"
           count={count}
-          array={particles}
+          array={particles.positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={count}
+          array={particles.colors}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.12}
-        color="#00FF88"
+        size={0.15}
+        vertexColors
         transparent
-        opacity={0.6}
+        opacity={0.8}
         sizeAttenuation
         depthWrite={false}
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );
 }
 
 export default function ParticleBackground() {
-  const mouse = useRef({ x: 0, y: 0 });
-  const target = useRef({ x: 0, y: 0 });
-  const animationRef = useRef<number | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    // Small delay to ensure proper mounting
-    const timeout = setTimeout(() => setIsReady(true), 100);
-    
-    const handleMouseMove = (event: MouseEvent) => {
-      target.current.x = (event.clientX / window.innerWidth - 0.5) * 2;
-      target.current.y = (event.clientY / window.innerHeight - 0.5) * 2;
-    };
-
-    const handleTouchMove = (event: TouchEvent) => {
-      if (event.touches.length > 0) {
-        target.current.x = (event.touches[0].clientX / window.innerWidth - 0.5) * 2;
-        target.current.y = (event.touches[0].clientY / window.innerHeight - 0.5) * 2;
-      }
-    };
-
-    // Smooth interpolation animation
-    const animate = () => {
-      mouse.current.x += (target.current.x - mouse.current.x) * 0.05;
-      mouse.current.y += (target.current.y - mouse.current.y) * 0.05;
-      animationRef.current = requestAnimationFrame(animate);
-    };
-    
-    animate();
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
-    
-    return () => {
-      clearTimeout(timeout);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-    };
+  const handleMouseMove = useCallback((event: MouseEvent) => {
+    setMousePosition({
+      x: (event.clientX / window.innerWidth - 0.5) * 2,
+      y: (event.clientY / window.innerHeight - 0.5) * 2
+    });
   }, []);
 
-  if (!isReady) {
+  useEffect(() => {
+    // Delay mount to ensure DOM is ready
+    const timer = setTimeout(() => setMounted(true), 50);
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [handleMouseMove]);
+
+  if (!mounted) {
     return <div className="fixed inset-0 z-[-1] bg-background" />;
   }
 
   return (
-    <div className="fixed inset-0 z-[-1] opacity-70 pointer-events-none">
+    <div className="fixed inset-0 z-[-1]">
       <Canvas
-        camera={{ position: [0, 0, 25], fov: 75 }}
+        camera={{ position: [0, 0, 20], fov: 60 }}
         gl={{ 
-          antialias: true, 
+          antialias: false,
           alpha: true,
-          powerPreference: "default",
-          failIfMajorPerformanceCaveat: false
+          powerPreference: "default"
         }}
         style={{ background: 'transparent' }}
-        dpr={[1, 1.5]}
+        dpr={1}
       >
-        <fog attach="fog" args={['#020203', 15, 80]} />
-        <Particles mouse={mouse} count={1200} />
+        <Particles mousePosition={mousePosition} count={800} />
       </Canvas>
-      {/* Gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/80 pointer-events-none" />
     </div>
   );
 }

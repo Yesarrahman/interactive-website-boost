@@ -34,8 +34,14 @@ const Index = () => {
   const openCaseStudy = (id: string) => {
     setCaseStudyId(id);
     setCaseStudyOpen(true);
+    setProjectsModalOpen(false);
   };
   const closeCaseStudy = () => setCaseStudyOpen(false);
+  
+  const backToProjects = () => {
+    setCaseStudyOpen(false);
+    setProjectsModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -76,6 +82,7 @@ const Index = () => {
         isOpen={caseStudyOpen}
         projectId={caseStudyId}
         onClose={closeCaseStudy}
+        onBackToProjects={backToProjects}
       />
     </div>
   );

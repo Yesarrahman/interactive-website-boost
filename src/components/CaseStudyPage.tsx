@@ -6,9 +6,10 @@ interface CaseStudyPageProps {
   isOpen: boolean;
   projectId: string;
   onClose: () => void;
+  onBackToProjects: () => void;
 }
 
-export default function CaseStudyPage({ isOpen, projectId, onClose }: CaseStudyPageProps) {
+export default function CaseStudyPage({ isOpen, projectId, onClose, onBackToProjects }: CaseStudyPageProps) {
   const project = getProjectById(projectId);
 
   if (!project) return null;
@@ -25,7 +26,7 @@ export default function CaseStudyPage({ isOpen, projectId, onClose }: CaseStudyP
         >
           <div className="max-w-6xl mx-auto px-6 py-12">
             <button 
-              onClick={onClose}
+              onClick={onBackToProjects}
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-12"
             >
               <ArrowLeft size={20} /> Back to Projects
