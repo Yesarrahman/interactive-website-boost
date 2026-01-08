@@ -219,13 +219,13 @@ export default function ContactSection() {
           )}
 
           <div className="mt-12 pt-8 border-t border-border/30 flex justify-center gap-8">
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Github">
+            <a href="https://github.com/Yesarrahman" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Github">
               <Github size={20} />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/yesar-rahman-04463643/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
               <Linkedin size={20} />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
+            <a href="https://x.com/YesarMiki" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Twitter">
               <Twitter size={20} />
             </a>
           </div>
