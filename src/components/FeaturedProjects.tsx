@@ -10,7 +10,8 @@ interface FeaturedProjectsProps {
 
 const categories: { id: ProjectCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'All Work' },
-  { id: 'web-design', label: 'Web Design' },
+  { id: 'shopify', label: 'Shopify' },
+  { id: 'wordpress', label: 'WordPress' },
   { id: 'development', label: 'Development' },
   { id: 'seo', label: 'SEO' }
 ];

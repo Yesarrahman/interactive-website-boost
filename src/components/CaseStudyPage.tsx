@@ -125,6 +125,18 @@ export default function CaseStudyPage({ isOpen, projectId, onClose, onBackToProj
                       ))}
                     </div>
                   </div>
+                  
+                  {project.liveUrl && (
+                    <a 
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex w-full text-center bg-white/5 border border-border/30 text-foreground font-medium py-3 rounded-lg hover:bg-white/10 transition-all mb-3 items-center justify-center gap-2"
+                    >
+                      <ExternalLink size={16} /> View Live Site
+                    </a>
+                  )}
+                  
                   <a 
                     href="#contact" 
                     onClick={onClose}

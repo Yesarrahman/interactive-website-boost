@@ -1,4 +1,4 @@
-export type ProjectCategory = 'web-design' | 'development' | 'seo';
+export type ProjectCategory = 'web-design' | 'development' | 'seo' | 'shopify' | 'wordpress';
 
 export interface Project {
   id: string;
@@ -15,70 +15,183 @@ export interface Project {
   solution: string;
   results: string[];
   featured?: boolean;
+  liveUrl?: string;
 }
 
 export const projects: Project[] = [
-  // Web Design Projects
+  // Shopify Projects
   {
-    id: 'ecommerce-redesign',
-    title: 'E-Commerce Platform Redesign',
-    shortDescription: 'Complete UI/UX overhaul for a fashion e-commerce brand',
-    description: 'A complete redesign of an e-commerce platform focusing on user experience, conversion optimization, and modern aesthetics.',
-    category: 'web-design',
-    tech: ['Figma', 'React', 'TailwindCSS', 'Framer Motion'],
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
-    client: 'StyleCo Fashion',
-    timeline: '6 Weeks',
-    services: 'UI/UX Design, Frontend Development',
-    challenge: 'The existing platform had a high bounce rate (68%) and low conversion rate (1.2%). The design was outdated and not mobile-friendly, leading to significant revenue loss.',
-    solution: 'Conducted extensive user research and A/B testing. Redesigned the entire customer journey with a mobile-first approach, implemented micro-interactions for better engagement, and optimized the checkout flow.',
-    results: [
-      '45% increase in conversion rate',
-      '60% reduction in cart abandonment',
-      '3.2x improvement in mobile sales',
-      '25% increase in average order value'
-    ],
-    featured: true
-  },
-  {
-    id: 'saas-dashboard',
-    title: 'SaaS Analytics Dashboard',
-    shortDescription: 'Modern dashboard design for business intelligence',
-    description: 'Designed and built a comprehensive analytics dashboard for a B2B SaaS platform.',
-    category: 'web-design',
-    tech: ['Figma', 'React', 'D3.js', 'TailwindCSS'],
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
-    client: 'DataFlow Inc',
+    id: 'labgrownlove',
+    title: 'Lab Grown Love',
+    shortDescription: 'Premium lab-grown diamond jewelry e-commerce store',
+    description: 'A sophisticated Shopify store for lab-grown diamond jewelry with elegant design and seamless shopping experience.',
+    category: 'shopify',
+    tech: ['Shopify', 'Liquid', 'JavaScript', 'Custom Theme'],
+    image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
+    client: 'Lab Grown Love',
     timeline: '8 Weeks',
-    services: 'Product Design, Data Visualization',
-    challenge: 'Users struggled to interpret complex data sets. The existing dashboard was cluttered and lacked actionable insights.',
-    solution: 'Created a clean, intuitive interface with customizable widgets, real-time data visualization, and AI-powered insights. Implemented dark mode and accessibility features.',
+    services: 'Shopify Development, Custom Theme, UX Design',
+    challenge: 'The client needed a premium e-commerce experience that conveyed luxury and trust for high-value jewelry purchases.',
+    solution: 'Developed a custom Shopify theme with elegant animations, high-quality product galleries, and optimized checkout flow for conversion.',
     results: [
-      '85% user satisfaction score',
-      '40% reduction in support tickets',
-      '2x increase in daily active users',
-      'Featured in design publications'
-    ]
+      '150% increase in conversion rate',
+      '45% reduction in cart abandonment',
+      'Premium brand positioning achieved',
+      'Seamless mobile shopping experience'
+    ],
+    featured: true,
+    liveUrl: 'https://labgrownlove.de/'
   },
   {
-    id: 'portfolio-website',
-    title: 'Creative Agency Portfolio',
-    shortDescription: 'Award-winning portfolio for a creative agency',
-    description: 'Built an immersive, interactive portfolio website showcasing creative work.',
-    category: 'web-design',
-    tech: ['Next.js', 'Three.js', 'GSAP', 'Prismic CMS'],
-    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=800',
-    client: 'Pixel Perfect Agency',
-    timeline: '10 Weeks',
-    services: 'Web Design, 3D Development',
-    challenge: 'The agency needed a portfolio that would stand out and showcase their creative capabilities while maintaining excellent performance.',
-    solution: 'Developed an award-winning website with 3D elements, smooth animations, and interactive case studies. Optimized for performance despite heavy visual elements.',
+    id: 'colourpop',
+    title: 'ColourPop Cosmetics',
+    shortDescription: 'High-traffic beauty e-commerce platform',
+    description: 'Contributed to the development of ColourPop\'s high-performance Shopify store handling millions of visitors.',
+    category: 'shopify',
+    tech: ['Shopify Plus', 'Liquid', 'JavaScript', 'Performance Optimization'],
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800',
+    client: 'ColourPop Cosmetics',
+    timeline: '12 Weeks',
+    services: 'Shopify Plus Development, Performance Optimization',
+    challenge: 'Handle massive traffic spikes during product launches while maintaining fast load times and smooth checkout.',
+    solution: 'Implemented advanced caching strategies, optimized Liquid templates, and created scalable architecture for flash sales.',
     results: [
-      'Awwwards Site of the Day',
-      '95+ Lighthouse performance score',
-      '300% increase in inquiries',
-      'Featured in CSS Design Awards'
-    ]
+      '99.9% uptime during flash sales',
+      '2.5s average page load time',
+      'Handles 100K+ concurrent users',
+      'Seamless checkout experience'
+    ],
+    featured: true,
+    liveUrl: 'https://colourpop.com/'
+  },
+  {
+    id: 'spigen',
+    title: 'Spigen Cases',
+    shortDescription: 'Global phone accessories e-commerce store',
+    description: 'Development work on Spigen\'s international Shopify store for premium phone cases and accessories.',
+    category: 'shopify',
+    tech: ['Shopify', 'Liquid', 'Multi-currency', 'International SEO'],
+    image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&q=80&w=800',
+    client: 'Spigen Inc.',
+    timeline: '10 Weeks',
+    services: 'Shopify Development, International Expansion',
+    challenge: 'Create a seamless shopping experience across multiple countries with localized content and currencies.',
+    solution: 'Implemented multi-currency support, geo-targeting, and optimized product pages for international markets.',
+    results: [
+      '35% increase in international sales',
+      'Localized for 15+ markets',
+      'Improved site speed globally',
+      'Enhanced product discovery'
+    ],
+    liveUrl: 'https://www.spigen.com/'
+  },
+  {
+    id: 'creativebooster',
+    title: 'Creative Booster',
+    shortDescription: 'Digital products and creative tools marketplace',
+    description: 'A Shopify store for digital creative assets and tools for designers and content creators.',
+    category: 'shopify',
+    tech: ['Shopify', 'Digital Downloads', 'Custom Theme', 'Automation'],
+    image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80&w=800',
+    client: 'Creative Booster',
+    timeline: '6 Weeks',
+    services: 'Shopify Development, Digital Product Setup',
+    challenge: 'Sell digital products with instant delivery while providing a premium shopping experience.',
+    solution: 'Built custom digital download system with automated delivery, membership features, and intuitive product browsing.',
+    results: [
+      'Automated digital delivery',
+      '90% customer satisfaction',
+      'Recurring revenue model',
+      'Streamlined operations'
+    ],
+    liveUrl: 'https://creativebooster.net/'
+  },
+
+  // WordPress Projects
+  {
+    id: 'digitalcardiocare',
+    title: 'Digital Cardio Care',
+    shortDescription: 'Healthcare technology platform for cardiac monitoring',
+    description: 'A professional WordPress website for a digital healthcare company specializing in cardiac care solutions.',
+    category: 'wordpress',
+    tech: ['WordPress', 'Elementor', 'Custom PHP', 'Healthcare UI'],
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800',
+    client: 'Digital Cardio Care',
+    timeline: '8 Weeks',
+    services: 'WordPress Development, Healthcare UX',
+    challenge: 'Create a trustworthy healthcare platform that explains complex medical technology in an accessible way.',
+    solution: 'Designed a clean, professional website with clear service explanations, trust signals, and HIPAA-compliant contact forms.',
+    results: [
+      '200% increase in inquiries',
+      'Improved brand credibility',
+      'Mobile-optimized experience',
+      'Clear service communication'
+    ],
+    featured: true,
+    liveUrl: 'https://digitalcardiocare.com/'
+  },
+  {
+    id: 'ascentdispatch',
+    title: 'Ascent Dispatch',
+    shortDescription: 'Logistics and dispatch management platform',
+    description: 'A WordPress website for a dispatch and logistics company with service showcasing and lead generation.',
+    category: 'wordpress',
+    tech: ['WordPress', 'Custom Theme', 'Lead Generation', 'SEO'],
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=800',
+    client: 'Ascent Dispatch',
+    timeline: '6 Weeks',
+    services: 'WordPress Development, SEO, Lead Generation',
+    challenge: 'Stand out in the competitive dispatch industry with a professional online presence that generates leads.',
+    solution: 'Built a conversion-focused website with clear CTAs, service pages optimized for SEO, and integrated lead capture.',
+    results: [
+      '180% increase in leads',
+      'Page 1 Google rankings',
+      'Professional brand image',
+      'Automated lead notifications'
+    ],
+    liveUrl: 'https://ascentdispatch.com/'
+  },
+  {
+    id: 'salzasecurity',
+    title: 'Salza Security',
+    shortDescription: 'Professional security services company website',
+    description: 'A WordPress website for a security services company showcasing their expertise and building trust.',
+    category: 'wordpress',
+    tech: ['WordPress', 'Elementor Pro', 'Contact Forms', 'Trust Elements'],
+    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800',
+    client: 'Salza Security',
+    timeline: '5 Weeks',
+    services: 'WordPress Development, Brand Design',
+    challenge: 'Create a professional website that conveys trust and reliability for a security services company.',
+    solution: 'Designed a professional website with strong trust signals, clear service offerings, and easy contact options.',
+    results: [
+      'Professional brand presence',
+      'Increased client inquiries',
+      'Mobile-responsive design',
+      'Easy content management'
+    ],
+    liveUrl: 'https://salzasecurity.com/'
+  },
+  {
+    id: 'gaotek-uae',
+    title: 'GAOTek UAE',
+    shortDescription: 'B2B technology products e-commerce for UAE market',
+    description: 'A WordPress e-commerce website for GAOTek\'s UAE division selling industrial technology products.',
+    category: 'wordpress',
+    tech: ['WordPress', 'WooCommerce', 'B2B Features', 'Multi-currency'],
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
+    client: 'GAOTek',
+    timeline: '10 Weeks',
+    services: 'WooCommerce Development, B2B Setup',
+    challenge: 'Create a B2B e-commerce platform for industrial products with quote requests and bulk ordering.',
+    solution: 'Built a WooCommerce store with B2B features, quote system, product catalogs, and regional pricing.',
+    results: [
+      'Streamlined B2B ordering',
+      'Automated quote system',
+      'Regional market penetration',
+      'Improved product discovery'
+    ],
+    liveUrl: 'https://uae.gaotek.com/'
   },
 
   // Development Projects
@@ -263,5 +376,7 @@ export const getProjectById = (id: string): Project | undefined => {
 export const categoryLabels: Record<ProjectCategory, string> = {
   'web-design': 'Web Design',
   'development': 'Development',
-  'seo': 'SEO'
+  'seo': 'SEO',
+  'shopify': 'Shopify',
+  'wordpress': 'WordPress'
 };
