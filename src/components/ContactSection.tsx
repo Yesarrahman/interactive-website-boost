@@ -19,7 +19,7 @@ interface FormErrors {
   message?: string;
 }
 
-const WEB3FORMS_ACCESS_KEY = '0e5bfb8e-54f9-4802-86f9-4a36f57e7b66';
+const WEB3FORMS_ACCESS_KEY = 'e72399e7-4dc6-401c-9237-dde83b71f2c4';
 
 export default function ContactSection() {
   const ref = useRef(null);
