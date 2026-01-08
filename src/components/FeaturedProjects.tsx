@@ -5,6 +5,7 @@ import { projects, categoryLabels, type ProjectCategory } from '@/data/projects'
 
 interface FeaturedProjectsProps {
   onOpenCaseStudy: (id: string) => void;
+  limit?: number;
 }
 
 const categories: { id: ProjectCategory | 'all'; label: string }[] = [
@@ -14,7 +15,7 @@ const categories: { id: ProjectCategory | 'all'; label: string }[] = [
   { id: 'seo', label: 'SEO' }
 ];
 
-export default function FeaturedProjects({ onOpenCaseStudy }: FeaturedProjectsProps) {
+export default function FeaturedProjects({ onOpenCaseStudy, limit = 4 }: FeaturedProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'all'>('all');
@@ -22,6 +23,8 @@ export default function FeaturedProjects({ onOpenCaseStudy }: FeaturedProjectsPr
   const filteredProjects = activeCategory === 'all' 
     ? projects 
     : projects.filter(p => p.category === activeCategory);
+
+  const displayedProjects = filteredProjects.slice(0, Math.max(1, limit));
 
   return (
     <section id="work" className="py-24 relative" ref={ref}>
@@ -54,7 +57,7 @@ export default function FeaturedProjects({ onOpenCaseStudy }: FeaturedProjectsPr
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
