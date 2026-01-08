@@ -44,7 +44,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="relative isolate min-h-screen bg-background text-foreground overflow-x-hidden">
       <AnimatePresence mode="wait">
         {isLoading && <LoadingScreen isLoading={isLoading} />}
       </AnimatePresence>
@@ -64,7 +64,7 @@ const Index = () => {
         <HeroSection onOpenProjects={openProjects} />
         <LogoCloud />
         <ServicesSection />
-        <FeaturedProjects onOpenCaseStudy={openCaseStudy} />
+        <FeaturedProjects onOpenCaseStudy={openCaseStudy} limit={4} />
         <TestimonialsSection />
         <ContactSection />
       </main>
