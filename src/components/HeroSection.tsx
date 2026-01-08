@@ -59,9 +59,7 @@ export default function HeroSection({ onOpenProjects }: HeroSectionProps) {
           variants={itemVariants}
           className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-light"
         >
-          Full-Stack Developer • AI Automation Specialist
-          <br />
-          <span className="text-muted-foreground/70 text-sm">Building digital experiences that scale.</span>
+          I build fast, scalable websites and AI automation systems that help businesses grow, automate workflows, and save time.
         </motion.p>
 
         {/* CTA */}
